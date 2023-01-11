@@ -2,7 +2,9 @@
 extern crate rocket;
 extern crate queues;
 use dotenvy::dotenv;
+use rocket::figment::Figment;
 use rocket::http::Method;
+use rocket::Config;
 use rocket_cors::{AllowedOrigins, CorsOptions};
 use std::env;
 use tsp::routes::{
@@ -39,7 +41,15 @@ fn rocket() -> _ {
                 .collect(),
         )
         .allow_credentials(true);
-    rocket::build()
+
+    let config = Config {
+        port: env::var("PORT").unwrap().parse().unwrap(),
+        ..Config::default()
+    };
+
+    let figment = Figment::from(config);
+
+    rocket::custom(figment)
         .manage(state)
         .mount("/", routes![shortestpath])
         .mount("/history", routes![get_history])
