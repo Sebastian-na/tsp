@@ -1,29 +1,15 @@
 #[macro_use]
 extern crate rocket;
 extern crate queues;
-use rocket::fs::NamedFile;
+use dotenvy::dotenv;
 use rocket::http::Method;
 use rocket_cors::{AllowedOrigins, CorsOptions};
 use std::env;
-use dotenvy::dotenv;
-use std::path::{Path, PathBuf};
-use tsp::routes::{login::login,
-    shortestpath::shortestpath,
-    signup::sign_up,
-    history::get_history,
+use tsp::routes::{
+    history::get_history, login::login, shortestpath::shortestpath, signup::sign_up,
     user::get_user_details,
 };
 use tsp::{global::Data, utils};
-
-#[get("/")]
-async fn index() -> Option<NamedFile> {
-    NamedFile::open("templates/index.html").await.ok()
-}
-
-#[get("/<file..>", rank = 1)]
-async fn files(file: PathBuf) -> Option<NamedFile> {
-    NamedFile::open(Path::new("static/").join(file)).await.ok()
-}
 
 #[launch]
 fn rocket() -> _ {
@@ -55,13 +41,10 @@ fn rocket() -> _ {
         .allow_credentials(true);
     rocket::build()
         .manage(state)
-        .mount("/", routes![shortestpath, index, files])
-        .mount("/map", routes![index])
-        .mount("/history", routes![get_history, index])
-        .mount("/new-trip", routes![index])
-        .mount("/signup", routes![index, sign_up])
-        .mount("/login", routes![login, index])
-        .mount("/account", routes![index])
+        .mount("/", routes![shortestpath])
+        .mount("/history", routes![get_history])
+        .mount("/signup", routes![sign_up])
+        .mount("/login", routes![login])
         .mount("/user", routes![get_user_details])
         .attach(cors.to_cors().unwrap())
 }
