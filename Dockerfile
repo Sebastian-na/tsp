@@ -5,8 +5,7 @@ COPY . /app
 
 
 RUN cargo install diesel_cli --no-default-features --features postgres
-RUN ls
-RUN diesel migration run
+RUN diesel migration run --database-url $DATABASE_URL
 RUN cargo build --release
 
 
