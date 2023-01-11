@@ -15,7 +15,7 @@ use tsp::{global::Data, utils};
 
 #[launch]
 fn rocket() -> _ {
-    dotenv().ok();
+    // dotenv().ok();
     let coordinates_file = env::var("COORDINATES_FILE").unwrap();
     let arcs_file = env::var("ARCS_FILE").unwrap();
 
