@@ -13,5 +13,6 @@ RUN curl https://sebitasc.s3.us-east-2.amazonaws.com/edges.txt --output edges.tx
 
 RUN cargo build --release
 
+RUN cargo run
 
-CMD ["./target/debug/tsp"]
+# CMD ["./target/debug/tsp"]
