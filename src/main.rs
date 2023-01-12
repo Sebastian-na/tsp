@@ -7,6 +7,7 @@ use rocket::http::Method;
 use rocket::Config;
 use rocket_cors::{AllowedOrigins, CorsOptions};
 use std::env;
+use std::net::Ipv4Addr;
 use tsp::routes::{
     history::get_history, login::login, shortestpath::shortestpath, signup::sign_up,
     user::get_user_details,
@@ -45,6 +46,7 @@ fn rocket() -> _ {
 
     let config = Config {
         port: port.parse().unwrap(),
+        address: Ipv4Addr::new(0, 0, 0, 0).into(),
         ..Config::default()
     };
 
