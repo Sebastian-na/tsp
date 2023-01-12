@@ -19,4 +19,4 @@ RUN curl https://sebitasc.s3.us-east-2.amazonaws.com/edges.txt --output edges.tx
 
 RUN DATABASE_URL=$DATABASE_URL PORT=$PORT ARCS_FILE=$ARCS_FILE COORDINATES_FILE=$COORDINATES_FILE SECRET_JWT=$SECRET_JWT FRONTEND_URL=$FRONTEND_URL cargo build --release
 
-CMD ["./target/debug/tsp"]
+CMD ["./target/release/tsp"]
