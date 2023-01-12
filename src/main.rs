@@ -15,7 +15,8 @@ use tsp::{global::Data, utils};
 
 #[launch]
 fn rocket() -> _ {
-    // dotenv().ok();
+    dotenv().ok();
+    let port = env::var("PORT").unwrap();
     let coordinates_file = env::var("COORDINATES_FILE").unwrap();
     let arcs_file = env::var("ARCS_FILE").unwrap();
 
@@ -43,7 +44,7 @@ fn rocket() -> _ {
         .allow_credentials(true);
 
     let config = Config {
-        port: env::var("PORT").unwrap().parse().unwrap(),
+        port: port.parse().unwrap(),
         ..Config::default()
     };
 
